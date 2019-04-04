@@ -1,0 +1,4 @@
+---
+- name: Start the containers
+  docker_service:
+    project_src: "/var/lib/awx/build_image/"

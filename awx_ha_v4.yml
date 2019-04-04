@@ -1,0 +1,7 @@
+---
+- hosts: "{{ variable_host | default('awx_instance_group_*') }}"
+  become: yes
+  become_method: sudo
+  roles:
+    - { role: rabbitmq_cluster, when: ansible_distribution == "RedHat" }  
+    - { role: awx_ha_v4, when: ansible_distribution == "RedHat" }

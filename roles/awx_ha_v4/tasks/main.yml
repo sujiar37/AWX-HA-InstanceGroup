@@ -1,0 +1,9 @@
+---
+- import_tasks: setup_env.yml
+  when: task == "all" or task == "setup_env"
+
+- import_tasks: build_env.yml
+  when: task == "all" or task == "build_env"
+
+- import_tasks: run_env.yml
+  when: task == "all" or task == "run_env"

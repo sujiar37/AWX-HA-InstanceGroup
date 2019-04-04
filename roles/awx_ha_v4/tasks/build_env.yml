@@ -1,0 +1,23 @@
+---
+- name: Build Docker Images in Primary Node
+  docker_image:
+    path: "/var/lib/awx/build_image"
+    dockerfile: "{{ item.file }}"
+    name: "{{ item.name }}"
+    tag: "{{ item.version }}"
+    force: yes
+  with_items:
+    - { file: Dockerfile, name: awx_web_ha, version: "{{ awx_web_tag }}" }
+    - { file: Dockerfile.task, name: awx_task_ha, version: "{{ awx_task_tag }}" }
+  when: inventory_hostname == groups['awx_instance_group_master'][0]
+
+- name: Build Docker Images in Agent Nodes
+  docker_image:
+    path: "/var/lib/awx/build_image"
+    dockerfile: "{{ item.file }}"
+    name: "{{ item.name }}"
+    tag: "{{ item.version }}"
+    force: yes
+  with_items:
+    - { file: Dockerfile.task, name: awx_task_ha, version: "{{ awx_task_tag }}" }
+  when: inventory_hostname != groups['awx_instance_group_master'][0]

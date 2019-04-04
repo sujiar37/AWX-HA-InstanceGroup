@@ -1,0 +1,72 @@
+---
+- name: Enabling Docker-CE repository
+  get_url:
+    url:  "{{ docker_ce_url }}"
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+
+- name: Install the dependencies
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: "{{ dependencies.pkg }}"
+
+- name: Install the docker-py libraries
+  pip:
+    name: "{{ item }}"
+  with_items: "{{ dependencies.pip }}"
+
+- name: Create the build directories in all nodes
+  file:
+    path: "/var/lib/awx/build_image"
+    state: directory
+
+- name: Define the System UUID
+  shell: "echo 'import uuid; print(uuid.uuid4())' | python; touch /var/lib/awx/build_image/system_uuid.txt"
+  args:
+    chdir: /var/lib/awx/build_image
+    creates: system_uuid.txt
+  register: system_uuid
+
+- debug:
+    var: system_uuid.stdout
+
+- name: Template the system UUID in settings.py file
+  template:
+    src: "{{ item.src }}"
+    dest: "/var/lib/awx/build_image/{{ item.dst }}"
+  with_items:
+    - { src: settings.py.j2, dst: settings.py }
+  when: 
+    - system_uuid is changed
+
+- name: Template the build and compose files to Primary Node
+  template:
+    src: "{{ item.src }}"
+    dest: "/var/lib/awx/build_image/{{ item.dst }}"
+  with_items:
+    - { src: Dockerfile.j2, dst: Dockerfile  }
+    - { src: Dockerfile.task.j2, dst: Dockerfile.task }
+    - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
+    - { src: launch_awx.sh.j2, dst: launch_awx.sh }
+    - { src: docker-compose.yml.j2, dst: docker-compose.yml }
+  when: inventory_hostname == groups['awx_instance_group_master'][0]
+  register: templates_primary_node
+
+- name: Template the build and compose files to Agent Nodes
+  template:
+    src: "{{ item.src }}"
+    dest: "/var/lib/awx/build_image/{{ item.dst }}"
+  with_items:
+    - { src: Dockerfile.task.j2, dst: Dockerfile.task }
+    - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
+    - { src: launch_awx.sh.j2, dst: launch_awx.sh }
+    - { src: docker-compose.yml.agent.j2, dst: docker-compose.yml }
+  when: inventory_hostname != groups['awx_instance_group_master'][0]
+  register: templates_agents_node
+
+- name: SETUP_ENV - Starting Docker services
+  systemd:
+     name: docker.service
+     state: started
+     enabled: yes

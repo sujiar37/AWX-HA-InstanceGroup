@@ -1,0 +1,17 @@
+---
+### AWX Default Settings
+awx_unique_secret_key: awxsecret
+awx_admin_default_pass: password
+
+### Postgre DB details
+pg_db_host: "Database_Node_IP"
+pg_db_pass: "awxpass"
+pg_db_port: "5432"
+pg_db_user: "awx"
+pg_db_name: "awx"
+
+
+###  RabbitMQ default settings
+rabbitmq_cookie: "cookiemonster"
+rabbitmq_username: "awx"
+rabbitmq_password: "password"

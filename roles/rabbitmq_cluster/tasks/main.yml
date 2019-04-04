@@ -1,0 +1,11 @@
+---
+- import_tasks: enable_rmq.yml
+  when: task == "all" or task == "enable_rmq"
+
+- import_tasks: configure_rmq.yml
+  when: 
+    - inventory_hostname == groups['awx_instance_group_master'][0]
+    - task == "all" or task == "configure_rmq"
+
+- import_tasks: join_rmq_cluster.yml
+  when: task == "all" or task == "join_rmq_cluster"

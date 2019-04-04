@@ -1,0 +1,27 @@
+---
+- name: Add AWX Vhost
+  rabbitmq_vhost:
+    name: "{{ rabbitmq_vhost|default('awx') }}"
+    state: present
+
+- name: Create the RrabbitMQ user
+  rabbitmq_user:
+    user: "{{ rabbitmq_username }}"
+    password: "{{ rabbitmq_password }}"
+    vhost: "{{ rabbitmq_vhost|default('awx') }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+    tags: administrator
+  notify:
+    - remove mq_guest
+
+- name: Apply the HA policy to RabbitMQ cluster
+  rabbitmq_policy:
+    name: ha-all
+    pattern: .*
+    vhost: "{{ rabbitmq_vhost|default('awx') }}"
+    tags:
+       ha-mode: all
+       ha-sync-mode: automatic

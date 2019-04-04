@@ -1,0 +1,9 @@
+[all]
+
+[awx_instance_group_master]
+Primary_Node_A
+
+[awx_instance_group_agent]
+Primary_Node_B
+Primary_Node_C
+Primary_Node_D

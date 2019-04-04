@@ -1,0 +1,38 @@
+version: '2'
+services:
+
+  task:
+    image: awx_task_ha:{{ awx_task_tag }}
+    depends_on:
+      - memcached
+    hostname: awx
+    user: root
+    restart: unless-stopped
+    environment:
+      http_proxy: 
+      https_proxy: 
+      no_proxy: 
+      CLUSTER_NODE: {{ ansible_hostname }}
+      SECRET_KEY: {{ awx_unique_secret_key }}
+
+      DATABASE_NAME: {{ pg_db_name }}
+      DATABASE_USER: {{ pg_db_user }}
+      DATABASE_PASSWORD: {{ pg_db_pass }}
+      DATABASE_HOST: {{ pg_db_host }}
+      DATABASE_PORT: {{ pg_db_port }}
+      
+      RABBITMQ_USER: {{ rabbitmq_username }}
+      RABBITMQ_PASSWORD: {{ rabbitmq_password }}
+      RABBITMQ_HOST: {{ ansible_hostname }}
+      RABBITMQ_PORT: 5672
+      RABBITMQ_VHOST: awx
+      
+      MEMCACHED_HOST: memcached
+      MEMCACHED_PORT: 11211
+      AWX_ADMIN_USER: admin
+      AWX_ADMIN_PASSWORD: {{ awx_admin_default_pass }}
+
+
+  memcached:
+    image: memcached:alpine
+    restart: unless-stopped

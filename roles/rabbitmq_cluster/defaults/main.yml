@@ -1,0 +1,9 @@
+---
+tasks: all
+enable_port:
+   - 15672/tcp
+   - 5672/tcp
+   - 4369/tcp
+   - 25672/tcp
+   - 80/tcp
+   - 443/tcp
