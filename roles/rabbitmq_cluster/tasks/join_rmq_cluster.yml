@@ -1,31 +1,31 @@
 ---
 - name: Set Primary RabbitMQ hostname
   set_fact:
-    rabbitmq_primary_host: "{{ groups['awx_instance_group_master'][0] }}"
-    rabbitmq_primary_host_dns: "{{ hostvars[groups['awx_instance_group_master'][0]].ansible_hostname }}"
+    rabbitmq_primary_host: "{{ groups['awx_instance_group_web'][0] }}"
+    rabbitmq_primary_host_dns: "{{ hostvars[groups['awx_instance_group_web'][0]].ansible_hostname }}"
 
 - name: Check whether the agent nodes are clustered already
   command: /sbin/rabbitmqctl cluster_status
   register: check_rmq_cluster
-  when: inventory_hostname != groups['awx_instance_group_master'][0]
+  when: inventory_hostname not in groups['awx_instance_group_web']
   check_mode: no
 
 - name: Stop RabbitMQ app in the agent nodes
   command: /sbin/rabbitmqctl stop_app
   when: 
-    - inventory_hostname != groups['awx_instance_group_master'][0]
+    - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
 
 - name: Join agent nodes under RabbitMQ cluster
   command: /sbin/rabbitmqctl join_cluster rabbit@{{ rabbitmq_primary_host_dns }}
   when: 
-    - inventory_hostname != groups['awx_instance_group_master'][0]
+    - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
   register: cluster_status
 
 - name: Start RabbitMQ app in the agent nodes
   command: /sbin/rabbitmqctl start_app
   when: 
-    - inventory_hostname != groups['awx_instance_group_master'][0]
+    - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
     - cluster_status is changed

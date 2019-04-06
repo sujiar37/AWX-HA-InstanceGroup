@@ -9,7 +9,7 @@
   with_items:
     - { file: Dockerfile, name: awx_web_ha, version: "{{ awx_web_tag }}" }
     - { file: Dockerfile.task, name: awx_task_ha, version: "{{ awx_task_tag }}" }
-  when: inventory_hostname == groups['awx_instance_group_master'][0]
+  when: inventory_hostname in groups['awx_instance_group_web']
 
 - name: Build Docker Images in Agent Nodes
   docker_image:
@@ -20,4 +20,4 @@
     force: yes
   with_items:
     - { file: Dockerfile.task, name: awx_task_ha, version: "{{ awx_task_tag }}" }
-  when: inventory_hostname != groups['awx_instance_group_master'][0]
+  when: inventory_hostname not in groups['awx_instance_group_web']

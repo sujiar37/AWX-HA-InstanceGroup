@@ -50,7 +50,7 @@
     - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
     - { src: launch_awx.sh.j2, dst: launch_awx.sh }
     - { src: docker-compose.yml.j2, dst: docker-compose.yml }
-  when: inventory_hostname == groups['awx_instance_group_master'][0]
+  when: inventory_hostname in groups['awx_instance_group_web']
   register: templates_primary_node
 
 - name: Template the build and compose files to Agent Nodes
@@ -62,7 +62,7 @@
     - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
     - { src: launch_awx.sh.j2, dst: launch_awx.sh }
     - { src: docker-compose.yml.agent.j2, dst: docker-compose.yml }
-  when: inventory_hostname != groups['awx_instance_group_master'][0]
+  when: inventory_hostname not in groups['awx_instance_group_web']
   register: templates_agents_node
 
 - name: SETUP_ENV - Starting Docker services

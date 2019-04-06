@@ -4,7 +4,7 @@
 
 - import_tasks: configure_rmq.yml
   when: 
-    - inventory_hostname == groups['awx_instance_group_master'][0]
+    - inventory_hostname in groups['awx_instance_group_web']
     - task == "all" or task == "configure_rmq"
 
 - import_tasks: join_rmq_cluster.yml
