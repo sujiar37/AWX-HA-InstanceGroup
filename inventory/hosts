@@ -1,9 +1,9 @@
 [all]
 
-[awx_instance_group_master]
+[awx_instance_group_web]
 Primary_Node_A
-
-[awx_instance_group_agent]
 Primary_Node_B
+
+[awx_instance_group_task]
 Primary_Node_C
 Primary_Node_D
