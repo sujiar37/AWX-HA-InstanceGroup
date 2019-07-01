@@ -12,20 +12,20 @@
 
 - name: Stop RabbitMQ app in the agent nodes
   command: /sbin/rabbitmqctl stop_app
-  when: 
+  when:
     - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
 
 - name: Join agent nodes under RabbitMQ cluster
   command: /sbin/rabbitmqctl join_cluster rabbit@{{ rabbitmq_primary_host_dns }}
-  when: 
+  when:
     - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
   register: cluster_status
 
 - name: Start RabbitMQ app in the agent nodes
   command: /sbin/rabbitmqctl start_app
-  when: 
+  when:
     - inventory_hostname not in groups['awx_instance_group_web']
     - check_rmq_cluster.stdout is not search(rabbitmq_primary_host_dns)
     - cluster_status is changed

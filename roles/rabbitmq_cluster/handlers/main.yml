@@ -1,6 +1,5 @@
 ---
-- name: remove mq_guest 
+- name: remove mq_guest
   rabbitmq_user:
     user: guest
     state: absent
-  

@@ -23,5 +23,5 @@
     pattern: .*
     vhost: "{{ rabbitmq_vhost|default('awx') }}"
     tags:
-       ha-mode: all
-       ha-sync-mode: automatic
+      ha-mode: all
+      ha-sync-mode: automatic

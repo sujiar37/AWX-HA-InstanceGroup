@@ -3,7 +3,7 @@
   when: task == "all" or task == "enable_rmq"
 
 - import_tasks: configure_rmq.yml
-  when: 
+  when:
     - inventory_hostname in groups['awx_instance_group_web']
     - task == "all" or task == "configure_rmq"
 
