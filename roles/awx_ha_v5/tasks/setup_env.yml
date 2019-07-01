@@ -1,7 +1,7 @@
 ---
 - name: Enabling Docker-CE repository
   get_url:
-    url:  "{{ docker_ce_url }}"
+    url: "{{ docker_ce_url }}"
     dest: /etc/yum.repos.d/docker-ce.repo
     mode: 0644
 
@@ -21,7 +21,7 @@
     path: "/var/lib/awx/build_image"
     state: directory
 
-- name: Define the System UUID
+- name: Define the System UUID  # noqa 306
   shell: "echo 'import uuid; print(uuid.uuid4())' | python; touch /var/lib/awx/build_image/system_uuid.txt"
   args:
     chdir: /var/lib/awx/build_image
@@ -37,7 +37,7 @@
     dest: "/var/lib/awx/build_image/{{ item.dst }}"
   with_items:
     - { src: settings.py.j2, dst: settings.py }
-  when: 
+  when:
     - system_uuid is changed
 
 - name: Template the build and compose files to Primary Node
@@ -45,7 +45,7 @@
     src: "{{ item.src }}"
     dest: "/var/lib/awx/build_image/{{ item.dst }}"
   with_items:
-    - { src: Dockerfile.j2, dst: Dockerfile  }
+    - { src: Dockerfile.j2, dst: Dockerfile }
     - { src: Dockerfile.task.j2, dst: Dockerfile.task }
     - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
     - { src: launch_awx.sh.j2, dst: launch_awx.sh }
@@ -67,6 +67,6 @@
 
 - name: SETUP_ENV - Starting Docker services
   systemd:
-     name: docker.service
-     state: started
-     enabled: yes
+    name: docker.service
+    state: started
+    enabled: yes

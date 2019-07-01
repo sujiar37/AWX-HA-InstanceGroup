@@ -22,9 +22,9 @@
 
 - name: Enable RabbitMQ server
   systemd:
-     name: rabbitmq-server.service
-     state: started
-     enabled: yes
+    name: rabbitmq-server.service
+    state: started
+    enabled: yes
 
 - name: Update the firewall rules
   firewalld:
