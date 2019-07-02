@@ -1,5 +1,5 @@
 ---
-tasks: all
+task: all
 enable_port:
    - 15672/tcp
    - 5672/tcp
