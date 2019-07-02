@@ -1,6 +1,6 @@
-# AWX V5.0.0 - Instance Group - HA
+# AWX V6.0.0 - Instance Group - HA
 
-AWX is an upstream project of Ansible Tower. I have been following this project since from the version `1.x` to the current latest version which is `5.x`. Below the diagram illustrates an overall idea about the clustering functionality in Ansible Tower version `3.X`. More likely the same functionality can achieve in AWX by tweaking few file modifications and settings. Hence, I came across a solution to automate this clustering process via playbook after I had a few insights from [AWX google groups](https://groups.google.com/forum/#!forum/awx-project) as well as the official Ansible Tower installation playbook. 
+[AWX](https://github.com/ansible/awx) is an upstream project of Ansible Tower. I have been following this project since from the version `1.x` to the current latest version which is `6.x`. Below the diagram illustrates an overall idea about the clustering functionality in Ansible Tower version `3.X`. More likely the same functionality can achieve in AWX by tweaking few file modifications and settings. Hence, I came across a solution to automate this clustering process via playbook after I had a few insights from [AWX google groups](https://groups.google.com/forum/#!forum/awx-project) as well as the official Ansible Tower installation playbook. 
 
 ![AWX Job Runtime Behaviour](https://docs.ansible.com/ansible-tower/latest/html/administration/_images/tower-clustering-visual.png)
 
@@ -30,7 +30,7 @@ services:
     ports:
       - "5432:5432"
 ```
-2. Here is the inventory details I populate with ansible to add **'n'** number of hosts into the existing cluster. All I have to update the machine ip address of new node under **`[awx_instance_group_task]`** and run the playbook **`awx_ha_v5.yml`**. In case if you want to enable web front end, then you can update the new machine information under **`[awx_instance_group_web]`** and run the playbook. One cool feature is, you can always perform `plug and play` with the hosts by using these two `awx_instance_group_web & awx_instance_group_task` inventory groups. It is all about your desire how many web nodes and task nodes you would like to have since HA doesn't require to run AWX web container in all nodes. Also, it is important that **all these nodes can communicate each other with their hostnames.**
+2. Here is the inventory details I populate with ansible to add **'n'** number of hosts into the existing cluster. All I have to update the machine ip address of new node under **`[awx_instance_group_task]`** and run the playbook **`awx_ha.yml`**. In case if you want to enable web front end, then you can update the new machine information under **`[awx_instance_group_web]`** and run the playbook. One cool feature is, you can always perform `plug and play` with the hosts by using these two `awx_instance_group_web & awx_instance_group_task` inventory groups. It is all about your desire how many web nodes and task nodes you would like to have since HA doesn't require to run AWX web container in all nodes. Also, it is important that **all these nodes can communicate each other with their hostnames.**
 
 ```bash
 $ cat inventory/hosts
@@ -73,7 +73,7 @@ rabbitmq_password: "password"
 ## Let's Run it
 
 ```bash
-$ ansible-playbook -i inventory/hosts awx_ha_v5.yml --verbose
+$ ansible-playbook -i inventory/hosts awx_ha.yml --verbose
 ```
 
 Running the above command with `--check` mode may fail in a new machines since there are few commands to check whether the RabbitMQ cluster is active / not. However, the issue won't trigger if you had run it to a machine which is in clustered already
