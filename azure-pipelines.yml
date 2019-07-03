@@ -10,15 +10,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
 - script: |
       sudo apt-get update
       sudo apt-get install python-pip
       pip install wheel
-      pip install ansible-lint
+      pip install git+https://github.com/ansible/ansible-lint.git
   displayName: 'Install dependencies and ansible-lint'
 
 - script: |
     which ansible-lint
+    ansible-lint -v
 #    ansible-lint -v
 #    ansible-lint *.yml
   displayName: 'Linting playbooks and roles'
