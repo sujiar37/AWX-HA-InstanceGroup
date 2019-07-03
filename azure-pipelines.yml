@@ -13,6 +13,7 @@ steps:
 - script: |
       sudo apt-get update
       sudo apt-get install python-pip
+      pip install wheel
       pip install ansible-lint
   displayName: 'Install dependencies and ansible-lint'
 
