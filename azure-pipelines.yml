@@ -10,10 +10,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      python -v
+      which ansible-lint
+#      pip3 install ansible-lint
+  displayName: 'Install dependencies and ansible-lint'
+
+#- script: |
+#    ansible-lint -v
+#    ansible-lint *.yml
+#  displayName: 'Linting playbooks and roles'
