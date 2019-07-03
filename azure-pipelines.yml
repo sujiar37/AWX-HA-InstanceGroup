@@ -19,6 +19,6 @@ steps:
 
 - script: |
     which ansible-lint
-    ansible-lint -v
+#    ansible-lint -v
 #    ansible-lint *.yml
   displayName: 'Linting playbooks and roles'
