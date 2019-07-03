@@ -18,6 +18,7 @@ steps:
   displayName: 'Install dependencies and ansible-lint'
 
 - script: |
+    which ansible-lint
     ansible-lint -v
 #    ansible-lint *.yml
   displayName: 'Linting playbooks and roles'
