@@ -18,6 +18,7 @@ steps:
   displayName: 'Install dependencies and ansible-lint'
 
 - script: |
+    pip install wheel
     pip install git+https://github.com/ansible/ansible-lint.git
     ansible-lint -v
 #    ansible-lint -v
