@@ -13,13 +13,14 @@ steps:
 
 - script: |
       sudo apt-get update
-      sudo apt-get install python-devel
-      sudo apt-get install python-pip 
+      sudo apt-get remove ansible* -y
+      sudo apt-get install python-devel -y
+      sudo apt-get install python-pip -y
   displayName: 'Install dependencies and ansible-lint'
 
 - script: |
     pip install wheel
-    pip install git+https://github.com/ansible/ansible-lint.git
+    pip install ansible-lint
     ansible-lint -v
 #    ansible-lint -v
 #    ansible-lint *.yml
