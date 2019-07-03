@@ -11,7 +11,9 @@ pool:
 
 steps:
 - script: |
-      pip2 install ansible-lint
+      sudo apt-get update
+      sudo apt-get install python-pip
+      pip install ansible-lint
   displayName: 'Install dependencies and ansible-lint'
 
 - script: |
