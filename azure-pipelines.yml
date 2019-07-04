@@ -10,8 +10,8 @@ pool:
   vmImage: 'ubuntu-16.04'
 
 container: 
-  image: sujithar37/ci_images:alpine-anlint
+  image: ubuntu:16.04
 
 steps:
-- script: ansible-lint -v
+- script: hostname
   displayName: 'check ansible lint version'
