@@ -7,19 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-16.04'
+
+container: sujithar37/ci_images:alpine-anlint
 
 steps:
-
-- script: |
-      sudo apt-get update
-      pip install --upgrade pip
-      pip uninstall ansible
-  displayName: 'Install dependencies and ansible-lint'
-
-- script: |
-    pip install ansible-lint
-    ansible-lint -v
-#    ansible-lint -v
-#    ansible-lint *.yml
-  displayName: 'Linting playbooks and roles'
+- script: ansible-lint -v
+  displayName: 'check ansible lint version'
