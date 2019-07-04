@@ -13,5 +13,7 @@ container:
   image: ubuntu:16.04
 
 steps:
-- script: hostname
+- script: 
+    hostname
+    ls
   displayName: 'check ansible lint version'
