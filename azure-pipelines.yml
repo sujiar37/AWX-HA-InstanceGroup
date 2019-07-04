@@ -14,7 +14,5 @@ container:
 
 steps:
 - script: |
-    hostname
-    ls
-    ansible-lint --version
-  displayName: 'check ansible lint version'
+    ansible-lint *.yml -v
+  displayName: 'Linting playbook and roles'
