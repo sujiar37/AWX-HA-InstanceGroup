@@ -9,8 +9,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-16.04'
 
-container: 
-  image: sujithar37/ci_images:anlint
+container: sujithar37/ci_images:anlint
 
 steps:
 - script: |
