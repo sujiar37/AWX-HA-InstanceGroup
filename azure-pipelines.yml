@@ -9,7 +9,8 @@ trigger:
 pool:
   vmImage: 'ubuntu-16.04'
 
-container: sujithar37/ci_images:alpine-anlint
+container: 
+  image: sujithar37/ci_images:alpine-anlint
 
 steps:
 - script: ansible-lint -v
