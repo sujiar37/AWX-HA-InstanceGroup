@@ -1,0 +1,22 @@
+---
+- name: Check whether the extra web nodes are clustered already
+  command: /sbin/rabbitmqctl cluster_status
+  register: check_rmq_cluster_web
+  check_mode: no
+
+- name: Stop RabbitMQ app in the extra web nodes
+  command: /sbin/rabbitmqctl stop_app
+  when:
+    - check_rmq_cluster_web.stdout is not search(rabbitmq_primary_host_dns)
+
+- name: Join extra web nodes under RabbitMQ cluster
+  command: /sbin/rabbitmqctl join_cluster rabbit@{{ rabbitmq_primary_host_dns }}
+  when:
+    - check_rmq_cluster_web.stdout is not search(rabbitmq_primary_host_dns)
+  register: cluster_status_web
+
+- name: Start RabbitMQ app in the extra web nodes
+  command: /sbin/rabbitmqctl start_app
+  when:
+    - check_rmq_cluster_web.stdout is not search(rabbitmq_primary_host_dns)
+    - cluster_status_web is changed

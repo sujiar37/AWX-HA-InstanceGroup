@@ -7,3 +7,4 @@ enable_port:
    - 25672/tcp
    - 80/tcp
    - 443/tcp
+web_node_count: "{{ groups['awx_instance_group_web'] | length }}"

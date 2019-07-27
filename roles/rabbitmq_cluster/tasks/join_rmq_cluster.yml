@@ -4,6 +4,12 @@
     rabbitmq_primary_host: "{{ groups['awx_instance_group_web'][0] }}"
     rabbitmq_primary_host_dns: "{{ hostvars[groups['awx_instance_group_web'][0]].ansible_hostname }}"
 
+- name: Include the tasks 'join_rmq_cluster_web.yml' if the count of web nodes are more than one
+  include_tasks: join_rmq_cluster_web.yml
+  when:
+    - "{{ web_node_count }} >= 2"
+    - inventory_hostname not in groups['awx_instance_group_task'] and inventory_hostname != rabbitmq_primary_host
+
 - name: Check whether the agent nodes are clustered already
   command: /sbin/rabbitmqctl cluster_status
   register: check_rmq_cluster
