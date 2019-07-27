@@ -1,5 +1,5 @@
 ---
-- name: Check whether the extra web nodes are clustered already
+- name: Check whether the extra web nodes are clustered already # noqa 301
   command: /sbin/rabbitmqctl cluster_status
   register: check_rmq_cluster_web
   check_mode: no
