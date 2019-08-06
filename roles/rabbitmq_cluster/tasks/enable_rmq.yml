@@ -33,9 +33,11 @@
     state: enabled
   with_items: "{{ enable_port }}"
   register: apply_fw_rules
+  tags: fw_rules
 
 - name: Restart the firewalld daemon
   service:
     name: firewalld.service
     state: restarted
   when: apply_fw_rules is changed
+  tags: fw_rules
