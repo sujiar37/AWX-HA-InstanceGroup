@@ -15,6 +15,7 @@
   register: check_rmq_cluster
   when: inventory_hostname not in groups['awx_instance_group_web']
   check_mode: no
+  changed_when: false
 
 - name: Stop RabbitMQ app in the agent nodes
   command: /sbin/rabbitmqctl stop_app
