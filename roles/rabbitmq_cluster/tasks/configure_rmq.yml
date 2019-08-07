@@ -4,7 +4,7 @@
     name: "{{ rabbitmq_vhost|default('awx') }}"
     state: present
 
-- name: Create the RrabbitMQ user
+- name: Create the RabbitMQ user
   rabbitmq_user:
     user: "{{ rabbitmq_username }}"
     password: "{{ rabbitmq_password }}"
