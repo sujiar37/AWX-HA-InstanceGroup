@@ -33,8 +33,8 @@
     state: enabled
   with_items: "{{ enable_port }}"
   register: apply_fw_rules
-  tags: fw_rules
   when: fw_rules | bool
+  tags: fw_rules
 
 - name: Restart the firewalld daemon
   service:
