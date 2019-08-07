@@ -76,7 +76,12 @@ rabbitmq_password: "password"
 ```bash
 $ ansible-playbook -i inventory/hosts awx_ha.yml --verbose
 
-$ ansible-playbook -i inventory/hosts awx_ha.yml --skip-tags fw_rules --verbose # Only run this command if you don't wish to enable and configure rules in firewalld daemon, which is an optional.
+# Only run any of the below commands if you don't wish to enable and configure rules in firewalld daemon, which is an optional.
+$ ansible-playbook -i inventory/hosts awx_ha.yml --skip-tags fw_rules --verbose
+
+                          [ OR ]
+
+$ ansible-playbook -i inventory/hosts awx_ha.yml -e "fw_rules=false" --verbose
 ```
 
 Running the above command with `--check` mode may fail in a new machines since there are few commands to check whether the RabbitMQ cluster is active / not. However, the issue won't trigger if you had run it to a machine which is in clustered already
