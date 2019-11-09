@@ -16,6 +16,12 @@
     name: "{{ item }}"
   with_items: "{{ dependencies.pip }}"
 
+- name: Enable Docker services
+  systemd:
+    name: docker.service
+    state: started
+    enabled: yes
+
 - name: Create the build directories in all nodes
   file:
     path: "/var/lib/awx/build_image"
@@ -30,6 +36,13 @@
 
 - debug:
     var: system_uuid.stdout
+
+- name: Fetch the docker0 gateway ip to map with host DNS
+  shell: ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
+  register: cluster_node_ip
+
+- debug:
+    var: cluster_node_ip.stdout
 
 - name: Template the system UUID in settings.py file
   template:
@@ -50,6 +63,7 @@
     - { src: launch_awx_task.sh.j2, dst: launch_awx_task.sh }
     - { src: launch_awx.sh.j2, dst: launch_awx.sh }
     - { src: docker-compose.yml.j2, dst: docker-compose.yml }
+    - { src: nginx.conf.j2, dst: nginx.conf }
   when: inventory_hostname in groups['awx_instance_group_web']
   register: templates_primary_node
 
@@ -64,9 +78,3 @@
     - { src: docker-compose.yml.agent.j2, dst: docker-compose.yml }
   when: inventory_hostname not in groups['awx_instance_group_web']
   register: templates_agents_node
-
-- name: SETUP_ENV - Starting Docker services
-  systemd:
-    name: docker.service
-    state: started
-    enabled: yes

@@ -1,8 +1,8 @@
 ---
 task: all
 docker_ce_url: "https://download.docker.com/linux/centos/docker-ce.repo"
-awx_web_tag: "6.1.0"
-awx_task_tag: "6.1.0"
+awx_web_tag: "9.0.1"
+awx_task_tag: "9.0.1"
 dependencies:
   pkg:
     - python-pip

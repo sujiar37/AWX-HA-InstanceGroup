@@ -1,3 +1,4 @@
 *.retry
 *.log
+.vagrant
 Vagrantfile
