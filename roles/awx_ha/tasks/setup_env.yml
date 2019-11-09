@@ -37,7 +37,7 @@
 - debug:
     var: system_uuid.stdout
 
-- name: Fetch the docker0 gateway ip to map with host DNS
+- name: Fetch the docker0 gateway ip to map with host DNS # noqa 306
   shell: ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
   register: cluster_node_ip
   changed_when: "'172.17.0.1' not in cluster_node_ip.stdout"
