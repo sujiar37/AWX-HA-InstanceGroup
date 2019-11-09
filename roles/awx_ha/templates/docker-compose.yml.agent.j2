@@ -8,6 +8,8 @@ services:
     hostname: awx
     user: root
     restart: unless-stopped
+    volumes:
+      - ~/.awx/projects:/var/lib/awx/projects:rw
     environment:
       http_proxy: 
       https_proxy: 
