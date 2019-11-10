@@ -86,6 +86,8 @@ $ ansible-playbook -i inventory/hosts awx_ha.yml -e "fw_rules=false" --verbose
 
 Running the above command with `--check` mode may fail in a new machines since there are few commands to check whether the RabbitMQ cluster is active / not. However, the issue won't trigger if you had run it to a machine which is in clustered already
 
+#### If you had a wish to run all these to a sandbox environment before deploying to your actual servers, please check the [instructions for Vagrant here](./sandbox.md).
+
 ## Known Issues
 As we all are aware, the initial deployment of AWX containers will try to access the DB and perform migration if required. In such cases, you may ended up seeing below error inside the affected task containers where it get locked up for DB access and will fail to join the cluster by throwing out below error,
 
