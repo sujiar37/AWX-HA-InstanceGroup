@@ -1,5 +1,5 @@
 [![Build Status](https://dev.azure.com/sujiar37/AWX-HA-InstanceGroup%20-%20CI/_apis/build/status/sujiar37.AWX-HA-InstanceGroup?branchName=master)](https://dev.azure.com/sujiar37/AWX-HA-InstanceGroup%20-%20CI/_build/latest?definitionId=2&branchName=master)
-# AWX V9.1.0 - Instance Group - HA
+# AWX V9.1.1 - Instance Group - HA
 
 [AWX](https://github.com/ansible/awx) is an upstream project of Ansible Tower. I have been following this project since from the version `1.x` to the current latest version which is `9.x`. Below the diagram illustrates an overall idea about the clustering functionality in Ansible Tower version `3.X`. More likely the same functionality can achieve in AWX by tweaking few file modifications and settings. Hence, I came across a solution to automate this clustering process via playbook after I had a few insights from [AWX google groups](https://groups.google.com/forum/#!forum/awx-project) as well as the official Ansible Tower installation playbook. 
 
