@@ -1,8 +1,8 @@
 ---
 task: all
 docker_ce_url: "https://download.docker.com/linux/centos/docker-ce.repo"
-awx_web_tag: "9.1.1"
-awx_task_tag: "9.1.1"
+awx_web_tag: "9.2.0"
+awx_task_tag: "9.2.0"
 dependencies:
   pkg:
     - gcc
